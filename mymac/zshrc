@@ -1,0 +1,42 @@
+# the fuck config, must brew install thefuck
+eval $(thefuck --alias)
+
+# autojump config, brew install autojump
+[[ -s `brew --prefix`/etc/autojump.sh  ]] && . `brew --prefix`/etc/autojump.sh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Below is for plugins managed by zplug
+if [[ ! -d "${ZPLUG_HOME}" ]]; then
+  if [[ ! -d ~/.zplug ]]; then
+    git clone https://github.com/zplug/zplug ~/.zplug
+    # If we can't get zplug, it'll be a very sobering shell experience. To at
+    # least complete the sourcing of this file, we'll define an always-false
+    # returning zplug function.
+    if [[ $? != 0 ]]; then
+      function zplug() {
+        return 1
+      }
+    fi
+  fi
+  export ZPLUG_HOME=~/.zplug
+fi
+if [[ -d "${ZPLUG_HOME}" ]]; then
+  source "${ZPLUG_HOME}/init.zsh"
+fi
+zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-completions', defer:2
+zplug 'zsh-users/zsh-history-substring-search'
+zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zplug "plugins/vi-mode", from:oh-my-zsh
+zplug 'plugins/git', from:oh-my-zsh, if:'which git'
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+
+if ! zplug check; then
+  zplug install
+fi
+
+zplug load
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source ~/.env.sh
