@@ -6,6 +6,9 @@ export LC_ALL=en_US.UTF-8
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# GHQ root dir
+export GHQ_ROOT=$HOME/development
+
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"

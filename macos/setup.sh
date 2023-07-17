@@ -6,16 +6,25 @@
 # checks architecture
 # Rosetta 2 enables a Mac with Apple silicon to use apps built for a Mac with
 # an Intel processor.
+
+fancy_output ()
+{
+  local CYAN=`tput setaf 6`
+  local WHITE=`tput setaf 15`
+  local msg="${CYAN}\n$1\n${WHITE}"
+  echo -e $msg
+}
+
 if [ "$(uname -m)" = "arm64" ]
   then
   # checks if Rosetta is already installed
   if ! pkgutil --pkg-info=com.apple.pkg.RosettaUpdateAuto > /dev/null 2>&1
   then
-    echo "Installing Rosetta"
+    fancy_output "Installing Rosetta"
     # Installs Rosetta2
     softwareupdate --install-rosetta --agree-to-license
   else
-    echo "Rosetta is installed"
+    fancy_output "Rosetta is installed"
   fi
 fi
 
@@ -25,7 +34,7 @@ xcode-select --install
 
 # Check for Homebrew to be present, install if it's missing
 if test ! $(which brew); then
-  echo "Installing homebrew..."
+  fancy_output "Installing homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
@@ -36,8 +45,8 @@ brew update
 
 # Installing from the API is now the default behaviour!
 # You can save space and time by running below command.
-brew untap homebrew/core
-brew untap homebrew/cask
+brew untap homebrew/core || true
+brew untap homebrew/cask || true
 
 # Install packages
 PACKAGES=(
@@ -57,12 +66,12 @@ PACKAGES=(
   ghq
   peco
   starship
+  unzip
   awscli
 )
-unzip
 
 
-echo "Installing packages..."
+fancy_output "Installing packages..."
 brew install ${PACKAGES[@]}
 
 
@@ -74,34 +83,34 @@ CASKS=(
   itsycal
   keepingyouawake
 )
-echo "Installing cask..."
+fancy_output "Installing cask..."
 brew install --cask ${CASKS[@]}
 
 # Install nerd fonts
-echo "Installing fonts..."
+fancy_output "Installing fonts..."
 brew tap homebrew/cask-fonts
 brew install --cask font-sauce-code-pro-nerd-font
 
 # Language specific
-echo "Configuring Python..."
+fancy_output "Configuring Python..."
 PYPACKAGES=(
   pyenv
 )
 brew install ${PYPACKAGES[@]}
 
-echo "Configuring Nodejs..."
+fancy_output "Configuring Nodejs..."
 NODEPACKAGES=(
   n
 )
 brew install ${NODEPACKAGES[@]}
 
-echo "Configuring Go..."
+fancy_output "Configuring Go..."
 GOPACKAGE=(
   goenv
 )
 brew install ${GOPACKAGE[@]}
 
-echo "Configuring Terraform..."
+fancy_output "Configuring Terraform..."
 TFPACKAGE=(
   tfenv
 )
@@ -114,18 +123,26 @@ if [ ! -d "$HOME/.config/" ]; then
 fi
 basedir=$(dirname $0)
 if [ -f "$HOME/.zshrc" ]; then
-  echo "Backup zshrc file..."
+  fancy_output "Backup zshrc file..."
   mv $HOME/.zshrc $HOME/.zshrc.bak
 fi
 cp $basedir/zshrc $HOME/.zshrc
 cp $basedir/env.zsh $HOME/.env.zsh
 
+# GHQ
+if [ ! -d "$HOME/development/" ]; then
+  fancy_output "Creating development folder..."
+  mkdir "$HOME/development"
+fi
+
 # Neovim
-echo "Configuring Neovim..."
-git clone git@github.com:rafi/vim-config.git ~/.config/nvim
+fancy_output "Configuring Neovim..."
+if [ ! -d "$HOME/.config/nvim/" ]; then
+  git clone https://github.com/rafi/vim-config.git $HOME/.config/nvim
+fi
 
 
-echo "Configuring OS..."
+fancy_output "Configuring OS..."
 # Set fast key repeat rate
 defaults write NSGLobalDomain KeyRepeat -int 0
 # Autohide Dock when mouse is out
