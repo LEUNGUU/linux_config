@@ -1,0 +1,45 @@
+# This is my zshrc
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_FCNTL_LOCK
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+
+
+# zplug
+if [[ ! -d "${ZPLUG_HOME}" ]]; then
+	if [[ ! -d ~/.zplug ]]; then
+		git clone https://github.com/zplug/zplug ~/.zplug
+		if [[ $? != 0 ]]; then
+			function zplug() {
+			return 1
+		}
+	fi
+fi
+
+export ZPLUG_HOME=~/.zplug
+
+fi
+if [[ -d "${ZPLUG_HOME}" ]]; then
+	source "${ZPLUG_HOME}/init.zsh"
+fi
+
+zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-completions', defer:2
+zplug 'zsh-users/zsh-history-substring-search'
+zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zplug 'plugins/git', from:oh-my-zsh, if:'which git'
+
+if ! zplug check; then
+	zplug install
+fi
+
+zplug load
+
+# Load DIY Config
+[ -f ~/.env.zsh ] && source ~/.env.zsh
