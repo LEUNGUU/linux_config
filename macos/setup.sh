@@ -45,12 +45,12 @@ brew update
 
 # Installing from the API is now the default behaviour!
 # You can save space and time by running below command.
-brew tap | grep -w "homebrew/cask"
+brew tap | grep -E "^homebrew/cask$"
 if [ "$?" -eq 0 ]; then
   brew untap homebrew/cask || true
 fi
 
-brew tap | grep -w "homebrew/core"
+brew tap | grep -E "^homebrew/core$"
 if [ "$?" -eq 0 ]; then
   brew untap homebrew/core || true
 fi
@@ -73,6 +73,7 @@ PACKAGES=(
   ghq
   peco
   starship
+  commitizen
   unzip
   awscli
 )
