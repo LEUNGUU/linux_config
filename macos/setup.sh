@@ -45,8 +45,15 @@ brew update
 
 # Installing from the API is now the default behaviour!
 # You can save space and time by running below command.
-brew untap homebrew/core || true
-brew untap homebrew/cask || true
+brew tap | grep -w "homebrew/cask"
+if [ "$?" -eq 0 ]; then
+  brew untap homebrew/cask || true
+fi
+
+brew tap | grep -w "homebrew/core"
+if [ "$?" -eq 0 ]; then
+  brew untap homebrew/core || true
+fi
 
 # Install packages
 PACKAGES=(
