@@ -6,6 +6,9 @@ export LC_ALL=en_US.UTF-8
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # GHQ root dir
 export GHQ_ROOT=$HOME/development
 

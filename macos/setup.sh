@@ -11,8 +11,10 @@ fancy_output ()
 {
   local CYAN=`tput setaf 6`
   local WHITE=`tput setaf 15`
-  local msg="${CYAN}\n$1\n${WHITE}"
-  echo -e $msg
+  echo -e "${CYAN}\n#########################################################\n${WHITE}"
+  echo -e "${CYAN}\n                 $1                                      \n${WHITE}"
+  echo -e "${CYAN}\n#########################################################\n${WHITE}"
+
 }
 
 if [ "$(uname -m)" = "arm64" ]
@@ -63,6 +65,7 @@ PACKAGES=(
   docker
   neovim
   tmux
+  direnv
   wget
   bat
   fd
