@@ -140,6 +140,9 @@ fi
 cp $basedir/zshrc $HOME/.zshrc
 cp $basedir/env.zsh $HOME/.env.zsh
 
+# Configuring starship prompt
+cp $basedir/starship.toml $HOME/.config/starship.toml
+
 # GHQ
 if [ ! -d "$HOME/development/" ]; then
   fancy_output "Creating development folder..."
