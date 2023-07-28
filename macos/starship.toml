@@ -15,6 +15,7 @@ $git_commit\
 $git_state\
 $git_metrics\
 $memory_usage\
+$python\
 $env_var\
 $custom\
 $sudo\

@@ -62,7 +62,6 @@ PACKAGES=(
   bash
   zsh
   git
-  docker
   neovim
   tmux
   direnv
@@ -89,6 +88,7 @@ brew install ${PACKAGES[@]}
 # Install cask
 CASKS=(
   item2
+  docker
   firefox
   neteasemusic
   itsycal

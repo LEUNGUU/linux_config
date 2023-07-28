@@ -41,6 +41,7 @@ alias gl="git prettylog"
 alias gp="git push"
 alias gs="git status"
 alias gt="git tag"
+alias k="kubectl"
 alias q="exit"
 
 
