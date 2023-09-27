@@ -4,7 +4,15 @@ export EDITOR='nvim'
 export LC_ALL=en_US.UTF-8
 
 # homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ "$(uname -m)" = "arm64" ]
+then
+	export HOMEBREW_ROOT="/opt/homebrew"
+else
+	export HOMEBREW_ROOT="/usr/local"
+fi
+
+eval "$(${HOMEBREW_ROOT}/bin/brew shellenv)"
+
 
 # direnv
 eval "$(direnv hook zsh)"
@@ -12,10 +20,17 @@ eval "$(direnv hook zsh)"
 # GHQ root dir
 export GHQ_ROOT=$HOME/development
 
+# GPG
+export GPG_TTY=$(tty)
+
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# nodejs
+export N_PREFIX="$HOME/.n"
+export PATH="$N_PREFIX/bin:$PATH"
 
 # goenv
 export GOENV_ROOT="$HOME/.goenv"
@@ -25,7 +40,7 @@ export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
 
 # starship
-source <(/opt/homebrew/bin/starship init zsh --print-full-init)
+source <(${HOMEBREW_ROOT}/bin/starship init zsh --print-full-init)
 
 # Alias
 alias sessions="tmux attach -t test"
