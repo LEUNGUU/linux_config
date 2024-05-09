@@ -1,0 +1,51 @@
+{
+  "explain_code": {
+    "type": "chat",
+    "opts": {
+      "title": " Explain Code",
+      "template": "Explain the following code:\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nUse markdown format.\nHere's what the above code is doing:\n```",
+      "strategy": "display",
+      "params": {
+        "model": "meta.llama3-70b-instruct-v1:0",
+        "max_tokens": 2048,
+        "stop": ["```"]
+      }
+    }
+  },
+  "complete_code": {
+    "type": "chat",
+    "opts": {
+      "template": "Complete the following code written in {{lang}} by pasting the existing code and continuing it.\n\nExisting code:\n```{{filetype}}\n{{input}}\n```\n\n```{{filetype}}\n",
+      "strategy": "replace",
+      "params": {
+        "model": "meta.llama3-70b-instruct-v1:0",
+        "max_tokens": 2048,
+        "stop": ["```"]
+      }
+    }
+  },
+  "optimize_code": {
+    "type": "chat",
+    "opts": {
+      "template": "Optimize the following code.\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nOptimized version:\n```{{filetype}}",
+      "strategy": "edit",
+      "params": {
+        "model": "meta.llama3-70b-instruct-v1:0",
+        "max_tokens": 2048,
+        "stop": ["```"]
+      }
+    }
+  },
+  "fix_bugs": {
+    "type": "chat",
+    "opts": {
+      "template": "Fix bugs in the below code\n\nCode:\n```{{filetype}}\n{{input}}\n```\n\nFixed code:\n```{{filetype}}",
+      "strategy": "edit",
+      "params": {
+        "model": "meta.llama3-70b-instruct-v1:0",
+        "max_tokens": 2048,
+        "stop": ["```"]
+      }
+    }
+  }
+}
