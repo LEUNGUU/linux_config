@@ -2,6 +2,10 @@
 # Setup script for setting up a new ubuntu machine
 # Be prepared to turn your ubuntu into an awesome
 # development environment !
+#
+#
+BOB_VERSION=v2.9.1
+NVIM_VERSION=0.9.5
 
 fancy_output ()
 {
@@ -14,14 +18,24 @@ fancy_output ()
 }
 
 # update apt repository
-sudo apt update -y
+sudo apt update
+sudo apt install unzip build-essential fzf python3-venv -y
 
 
-# Install neovim
-fancy_output "Install neovim..."
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update 
-sudo apt install neovim -y
+
+# Install neovim version manager
+if [ ! -d "$HOME/.local/bin" ]; then
+  mkdir -p "$HOME/.local/bin"
+fi
+fancy_output "Install bob(neovim version manager)..."
+BOB_PREFIX="$HOME"/.bob-nvim
+wget https://github.com/MordechaiHadad/bob/releases/download/$BOB_VERSION/bob-linux-x86_64.zip -O bob.zip
+unzip bob.zip -d "$BOB_PREFIX"/ && mv "$BOB_PREFIX"/bob-linux-x86_64/bob "$BOB_PREFIX"/
+chmod +x "$BOB_PREFIX"/bob && rm -rf "$BOB_PREFIX"/bob-linux-x86_64/
+
+
+# Install n
+curl -L https://git.io/n-install | bash
 
 # Install zsh
 fancy_output "Install zsh..."
@@ -34,6 +48,9 @@ curl -sS https://starship.rs/install.sh | sudo sh
 # Install exa
 fancy_output "Install exa..."
 sudo apt install exa -y
+
+# Install neovim with bob
+"$BOB_PREFIX"/bob install $NVIM_VERSION && "$BOB_PREFIX"/bob use $NVIM_VERSION
 
 
 if [ ! -d "$HOME/.config/" ]; then
@@ -62,3 +79,16 @@ cp -a "$basedir"/../nvim "$HOME"/.config/
 # configure tmux
 fancy_output "Configuring tmux..."
 cp -a "$basedir"/tmux.conf "$HOME"/.tmux.conf
+
+# change login shell to zsh
+sudo chsh -s /bin/zsh "$USER"
+
+
+
+# Install after changing to zsh
+# Install miniconda
+# fancy_output "Install miniconda..."
+# wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+# chmod +x Miniconda3-latest-Linux-x86_64.sh
+# ./Miniconda3-latest-Linux-x86_64.sh
+

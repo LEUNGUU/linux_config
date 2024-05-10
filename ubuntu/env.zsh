@@ -26,6 +26,13 @@ alias gt="git tag"
 alias k="kubectl"
 alias q="exit"
 
+# bob
+BOB_PREFIX="$HOME"/.bob-nvim
+BOB_NVIM_BIN="$HOME"/.local/share/bob/nvim-bin
+export PATH=$BOB_PREFIX:$BOB_NVIM_BIN:$PATH
+
+# n
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 
 # Key binding
 bindkey -e
@@ -68,21 +75,5 @@ if (( $+commands[peco] )); then
 	
 	zle -N peco_select_history
 	bindkey '^R' peco_select_history
-fi
-
-
-if (( $+commands[peco] )); then
-	ZSH_PECO_GHQ_FILTER=${ZSH_PECO_GHQ_FILTER:-IgnoreCase}
-	function zsh-peco-ghq () {
-		local selected_dir=$(ghq list -p | peco --initial-filter "$ZSH_PECO_GHQ_FILTER" --query "$LBUFFER")
-		if [ -n "$selected_dir" ]; then
-			BUFFER="cd ${selected_dir}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	
-	zle -N zsh-peco-ghq
-	bindkey '^f' zsh-peco-ghq
 fi
 
