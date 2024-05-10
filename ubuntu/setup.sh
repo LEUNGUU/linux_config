@@ -80,6 +80,10 @@ cp -a "$basedir"/../nvim "$HOME"/.config/
 fancy_output "Configuring tmux..."
 cp -a "$basedir"/tmux.conf "$HOME"/.tmux.conf
 
+# configure git user
+fancy_output "Configuring gitconfig..."
+cp -a "$basedir"/gitconfig "$HOME"/.gitconfig
+
 # change login shell to zsh
 sudo chsh -s /bin/zsh "$USER"
 
