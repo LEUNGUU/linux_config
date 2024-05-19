@@ -19,7 +19,7 @@ fancy_output ()
 
 # update apt repository
 sudo apt update
-sudo apt install unzip build-essential fzf python3-venv -y
+sudo DEBIAN_FRONTEND=noninteractive apt install unzip build-essential fzf python3-venv -y
 
 
 
@@ -37,9 +37,18 @@ chmod +x "$BOB_PREFIX"/bob && rm -rf "$BOB_PREFIX"/bob-linux-x86_64/
 # Install n
 curl -L https://git.io/n-install | bash
 
+# Install tfenv
+git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.zprofile
+
 # Install zsh
 fancy_output "Install zsh..."
-sudo apt install zsh -y
+sudo DEBIAN_FRONTEND=noninteractive apt install zsh -y
+
+# Install aws cli v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 
 # Install starship
 fancy_output "Install starship..."
@@ -47,7 +56,7 @@ curl -sS https://starship.rs/install.sh | sudo sh
 
 # Install exa
 fancy_output "Install exa..."
-sudo apt install exa -y
+sudo DEBIAN_FRONTEND=noninteractive apt install exa -y
 
 # Install neovim with bob
 "$BOB_PREFIX"/bob install $NVIM_VERSION && "$BOB_PREFIX"/bob use $NVIM_VERSION
