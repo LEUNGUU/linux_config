@@ -61,6 +61,18 @@ sudo DEBIAN_FRONTEND=noninteractive apt install exa -y
 # Install neovim with bob
 "$BOB_PREFIX"/bob install $NVIM_VERSION && "$BOB_PREFIX"/bob use $NVIM_VERSION
 
+# Install Docker
+fancy_output "Install docker..."
+sudo DEBIAN_FRONTEND=noninteractive apt remove docker docker-engine docker.io containerd runc -y
+sudo DEBIAN_FRONTEND=noninteractive apt install ca-certificates curl gnupg -y
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo DEBIAN_FRONTEND=noninteractive apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo usermod -aG docker $USER
+
+
 
 if [ ! -d "$HOME/.config/" ]; then
   mkdir "$HOME/.config"
