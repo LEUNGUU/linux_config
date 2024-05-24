@@ -19,7 +19,7 @@ fancy_output ()
 
 # update apt repository
 sudo apt update
-sudo DEBIAN_FRONTEND=noninteractive apt install unzip build-essential fzf python3-venv -y
+sudo DEBIAN_FRONTEND=noninteractive apt install unzip build-essential fzf ripgrep python3-venv -y
 
 
 
