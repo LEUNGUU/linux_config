@@ -21,6 +21,9 @@ fancy_output ()
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install unzip build-essential fzf ripgrep python3-venv -y
 
+# set timezone
+sudo timedatectl set-timezone Asia/Shanghai
+
 
 
 # Install neovim version manager
