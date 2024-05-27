@@ -35,11 +35,15 @@ chmod +x "$BOB_PREFIX"/bob && rm -rf "$BOB_PREFIX"/bob-linux-x86_64/
 
 
 # Install n
-curl -L https://git.io/n-install | bash
+curl -L https://git.io/n-install | bash -s -- -n
 
 # Install tfenv
 git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
 echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.zprofile
+
+# Prepare conda installation
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64
 
 # Install zsh
 fancy_output "Install zsh..."
@@ -52,13 +56,14 @@ sudo ./aws/install
 
 # Install starship
 fancy_output "Install starship..."
-curl -sS https://starship.rs/install.sh | sudo sh
+curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
 
 # Install exa
-fancy_output "Install exa..."
-sudo DEBIAN_FRONTEND=noninteractive apt install exa -y
+fancy_output "Install exa and peco..."
+sudo DEBIAN_FRONTEND=noninteractive apt install exa peco -y
 
 # Install neovim with bob
+fancy_output "Install bob..."
 "$BOB_PREFIX"/bob install $NVIM_VERSION && "$BOB_PREFIX"/bob use $NVIM_VERSION
 
 # Install Docker
@@ -71,6 +76,9 @@ echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docke
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -aG docker $USER
+
+# Install tmux tpm
+git clone --depth=1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 
 
@@ -107,13 +115,3 @@ cp -a "$basedir"/gitconfig "$HOME"/.gitconfig
 
 # change login shell to zsh
 sudo chsh -s /bin/zsh "$USER"
-
-
-
-# Install after changing to zsh
-# Install miniconda
-# fancy_output "Install miniconda..."
-# wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-# chmod +x Miniconda3-latest-Linux-x86_64.sh
-# ./Miniconda3-latest-Linux-x86_64.sh
-
