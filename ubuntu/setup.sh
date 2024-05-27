@@ -38,7 +38,7 @@ chmod +x "$BOB_PREFIX"/bob && rm -rf "$BOB_PREFIX"/bob-linux-x86_64/
 
 
 # Install n
-curl -L https://git.io/n-install | bash -s -- -n
+curl -L https://git.io/n-install | bash -s -- -yn
 
 # Install tfenv
 git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
