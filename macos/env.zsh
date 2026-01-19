@@ -14,9 +14,6 @@ fi
 eval "$(${HOMEBREW_ROOT}/bin/brew shellenv)"
 
 
-# direnv
-eval "$(direnv hook zsh)"
-
 # GHQ root dir
 export GHQ_ROOT=$HOME/development
 
@@ -44,8 +41,8 @@ source <(${HOMEBREW_ROOT}/bin/starship init zsh --print-full-init)
 
 # Alias
 alias sessions="tmux attach -t test"
-alias ll="exa -l -g --icons"
-alias ls="exa --icons"
+alias ll="eza -l -g --icons"
+alias ls="eza --icons"
 alias gpl="git pull"
 alias ga="git add"
 alias gc="git commit"

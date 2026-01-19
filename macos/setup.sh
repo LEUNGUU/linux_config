@@ -69,14 +69,13 @@ PACKAGES=(
   git
   neovim
   tmux
-  direnv
   wget
   bat
   fd
   ripgrep
   zoxide
   fzf
-  exa
+  eza
   ghq
   peco
   starship
@@ -93,9 +92,9 @@ brew install ${PACKAGES[@]}
 # Install cask
 CASKS=(
   iterm2
+  ghostty
   docker
   firefox
-  neteasemusic
   itsycal
   keepingyouawake
 )
@@ -104,8 +103,7 @@ brew install --cask ${CASKS[@]}
 
 # Install nerd fonts
 fancy_output "Installing fonts..."
-brew tap homebrew/cask-fonts
-brew install --cask font-sauce-code-pro-nerd-font
+brew install --cask font-maple-mono-nf-cn
 
 # Language specific
 fancy_output "Configuring Python..."
@@ -147,6 +145,15 @@ cp $basedir/env.zsh $HOME/.env.zsh
 
 # Configuring starship prompt
 cp $basedir/starship.toml $HOME/.config/starship.toml
+
+# Configuring ghostty
+if [ ! -d "$HOME/.config/ghostty" ]; then
+  mkdir -p "$HOME/.config/ghostty"
+fi
+cp $basedir/ghostty.config $HOME/.config/ghostty/config
+
+# Configuring iTerm2
+defaults import com.googlecode.iterm2 $basedir/com.googlecode.iterm2.plist
 
 # GHQ
 if [ ! -d "$HOME/development/" ]; then
